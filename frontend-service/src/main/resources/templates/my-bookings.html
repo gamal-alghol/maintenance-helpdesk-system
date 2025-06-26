@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #f0f2f5, #d9e4f5);
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #3F7BED;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .PENDING { background-color: #ffc107; color: #000; }
+        .IN_PROGRESS { background-color: #17a2b8; color: #fff; }
+        .COMPLETED { background-color: #28a745; color: #fff; }
+        .REJECTED { background-color: #dc3545; color: #fff; }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .logout-button {
+            padding: 8px 16px;
+            background-color: #e53935;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #c62828;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="top-bar">
+        <div style="font-size: 18px; font-weight: bold;">
+            Welcome, <span th:text="${fullName}">User</span>
+        </div>
+        <form th:action="@{/logout}" method="get">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+
+    <h2>My Booking Requests</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Problem</th>
+                <th>Visit Date</th>
+                <th>Expected Hours</th>
+                <th>Status</th>
+                <th>Provider ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="booking : ${bookings}">
+                    <td th:text="${booking.id}">1</td>
+                <td th:text="${booking.problemDescription}">AC Issue</td>
+                <td th:text="${booking.visitDate}">2025-06-30</td>
+                <td th:text="${booking.expectedHours}">2</td>
+                <td>
+                    <span th:text="${booking.status}" th:class="'status-badge ' + ${booking.status}">PENDING</span>
+                </td>
+                <td th:text="${booking.providerId}">12</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

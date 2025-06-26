@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register New Account</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-image: 
+                url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .form-container input, .form-container select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .form-container button:hover {
+            background-color: #303f9f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Create New Account</h2>
+    
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <form method="post" th:action="@{/register}">
+    <input type="text" name="fullName" placeholder="Full Name" required />
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="text" name="phoneNumber" placeholder="Phone Number" pattern="[0-9+]{8,15}" required />
+    <input type="password" name="password" placeholder="Password" required />
+
+    <select name="role" id="roleSelect" required onchange="toggleServiceSelect()">
+        <option value="">-- Select Role --</option>
+        <option value="SERVICE_PROVIDER">Service Provider</option>
+        <option value="SERVICE_REQUESTER">Service Requester</option>
+    </select>
+
+    <div id="serviceTypeDiv" style="display: none;">
+        <select name="serviceType">
+            <option value="">-- Select Service Type --</option>
+            <option value="Electrician">Electrician</option>
+            <option value="Plumber">Plumber</option>
+            <option value="Carpenter">Carpenter</option>
+            <option value="Painter">Painter</option>
+            <option value="Welder">Welder</option>
+        </select>
+        <input type="number" name="pricePerHour" placeholder="Price Per Hour ($)" min="0" step="1"  />
+    </div>
+
+    <button type="submit">Register</button>
+</form>
+
+</div>
+
+<script>
+    function toggleServiceSelect() {
+        const roleSelect = document.getElementById("roleSelect");
+        const serviceDiv = document.getElementById("serviceTypeDiv");
+        serviceDiv.style.display = roleSelect.value === "SERVICE_PROVIDER" ? "block" : "none";
+    }
+</script>
+
+</body>
+</html>
